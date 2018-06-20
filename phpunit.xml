@@ -13,6 +13,7 @@
             <directory suffix="Test.php">./tests/Feature</directory>
             <directory suffix="Test.php">./tests/Unit</directory>
             <exclude>./tests/Unit/Services/APIs</exclude>
+            <exclude>./tests/Unit/Services/Categorization</exclude>
         </testsuite>
 
         <testsuite name="Feature">
@@ -27,6 +28,11 @@
         <testsuite name="APIs">
             <directory suffix="Test.php">./tests/Unit/Services/APIs</directory>
         </testsuite>
+
+        <testsuite name="Categorization">
+            <directory suffix="Test.php">./tests/Unit/Services/Categorization</directory>
+        </testsuite>
+
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
