@@ -4,8 +4,9 @@ namespace App\Services\APIs;
 
 use GuzzleHttp\Client;
 use App\Services\Laravel\WebShrinkerCredentials;
+use App\Services\Categorization\CategoriesDownloaderInterface;
 
-class WebShrinkerClient {
+class WebShrinkerClient implements CategoriesDownloaderInterface {
 
     CONST BASE_ENDPOINT = "https://api.webshrinker.com/";
     CONST CATEGORIZATION_ENDPOINT = "categories/";
@@ -60,9 +61,9 @@ class WebShrinkerClient {
      */
     public function getCategories($simple = true)
     {
-        $endpoint = self::CATEGORIZATION_ENDPOINT 
-                . self::API_VERSION 
-                .'?taxonomy=' 
+        $endpoint = self::CATEGORIZATION_ENDPOINT
+                . self::API_VERSION
+                . '?taxonomy='
                 . ($simple ? self::SIMPLE_CATEGORIZATION_TAXONOMY : self::IAB_CATEGORIZATION_TAXONOMY);
         return $this->sendRequest($endpoint);
     }
@@ -76,11 +77,11 @@ class WebShrinkerClient {
      */
     public function categorize($url, $simple = true)
     {
-        $endpoint = self::CATEGORIZATION_ENDPOINT 
-                . self::API_VERSION 
-                . '/' 
-                . $this->encodeUrl($url) 
-                .'?taxonomy=' . ($simple ? self::SIMPLE_CATEGORIZATION_TAXONOMY : self::IAB_CATEGORIZATION_TAXONOMY);
+        $endpoint = self::CATEGORIZATION_ENDPOINT
+                . self::API_VERSION
+                . '/'
+                . $this->encodeUrl($url)
+                . '?taxonomy=' . ($simple ? self::SIMPLE_CATEGORIZATION_TAXONOMY : self::IAB_CATEGORIZATION_TAXONOMY);
         return $this->sendRequest($endpoint);
     }
 
