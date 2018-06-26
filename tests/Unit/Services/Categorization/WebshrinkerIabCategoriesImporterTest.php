@@ -5,16 +5,16 @@ namespace Tests\Unit\Services\Categorization;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Services\Categorization\WebshrinkerSimpleCategoriesImporter;
+use App\Services\Categorization\WebshrinkerIabCategoriesImporter;
 
-class WebshrinkerSimpleCategoriesImporterTest extends TestCase {
+class WebshrinkerIabCategoriesImporterTest extends TestCase {
 
     use RefreshDatabase;
 
     /**
-     * @var WebshrinkerSimpleCategoriesImporter 
+     * @var WebshrinkerIabCategoriesImporter 
      */
-    protected $webshrinkerSimpleCategoriesImporter;
+    protected $webshrinkerIabCategoriesImporter;
 
     /**
      * Setting up things.
@@ -22,7 +22,7 @@ class WebshrinkerSimpleCategoriesImporterTest extends TestCase {
     protected function setUp()
     {
         parent::setUp();
-        $this->webshrinkerSimpleCategoriesImporter = app()->make(WebshrinkerSimpleCategoriesImporter::class);
+        $this->webshrinkerIabCategoriesImporter = app()->make(WebshrinkerIabCategoriesImporter::class);
     }
 
     /**
@@ -30,11 +30,17 @@ class WebshrinkerSimpleCategoriesImporterTest extends TestCase {
      */
     public function testParse()
     {
-        $testObject = (object) ['data' => (object) ['categories' => ['somekey' => 'somevalue']]];
+        $testObject = (object) ['data' => (object) ['categories' => ['IAB1' => [
+                                'IAB1' => 'Arts & Entertainment',
+                                'IAB1-1' => 'Books & Literature'
+        ]]]];
 
-        $intended = [['key' => 'somekey', 'value' => 'somevalue']];
+        $intended = [
+            ['key' => 'IAB1', 'value' => 'Arts & Entertainment', 'parent_key' => null],
+            ['key' => 'IAB1-1', 'value' => 'Books & Literature', 'parent_key' => 'IAB1']
+        ];
 
-        $actual = $this->webshrinkerSimpleCategoriesImporter->parse($testObject);
+        $actual = $this->webshrinkerIabCategoriesImporter->parse($testObject);
 
         $this->assertEquals($intended, $actual);
     }
@@ -44,18 +50,21 @@ class WebshrinkerSimpleCategoriesImporterTest extends TestCase {
      */
     public function testImport()
     {
-        $this->webshrinkerSimpleCategoriesImporter->import();
-        $this->assertDatabaseHas('webshrinker_simple_categories', [
-            'key' => 'advertising',
-            'value' => 'Advertising'
+        $this->webshrinkerIabCategoriesImporter->import();
+        $this->assertDatabaseHas('webshrinker_iab_categories', [
+            'key' => 'IAB1',
+            'value' => 'Arts & Entertainment',
+            'parent_key' => null
         ]);
-        $this->assertDatabaseHas('webshrinker_simple_categories', [
-            'key' => 'entertainment',
-            'value' => 'Entertainment'
+        $this->assertDatabaseHas('webshrinker_iab_categories', [
+            'key' => 'IAB1-1',
+            'value' => 'Books & Literature',
+            'parent_key' => 'IAB1'
         ]);
-        $this->assertDatabaseHas('webshrinker_simple_categories', [
-            'key' => 'shopping',
-            'value' => 'Shopping'
+        $this->assertDatabaseHas('webshrinker_iab_categories', [
+            'key' => 'IAB10',
+            'value' => 'Home & Garden',
+            'parent_key' => null
         ]);
     }
 
