@@ -2,6 +2,7 @@
 
 use Faker\Generator as Faker;
 use App\models\Bookmark;
+use App\Services\Bookmark\BookmarkCreator;
 
 /*
   |--------------------------------------------------------------------------
@@ -16,12 +17,16 @@ use App\models\Bookmark;
 
 $factory->define(Bookmark::class,
                  function (Faker $faker) {
+
+    $bookmarkCreator = resolve(BookmarkCreator::class);
+    $url = $faker->unique()->url;
+
     return [
-        'url' => $faker->unique()->url,
+        'url' => $url,
         'title' => $faker->text,
         'description' => $faker->text,
         'image' => $faker->imageUrl(),
-        'domain' => $faker->tld,
+        'domain' => $bookmarkCreator->extractDomain($url),
         'is_dead' => false,
         'http_code' => 200,
         'http_message' => 'Ok',
