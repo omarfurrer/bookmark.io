@@ -3,9 +3,10 @@
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\CategoriesRepositoryInterface;
+use App\Repositories\Interfaces\WebshrinkerSimpleCategoriesRepositoryInterface;
 use App\Models\WebshrinkerSimpleCategory;
 
-class EloquentWebshrinkerSimpleCategoriesRepository extends EloquentAbstractRepository implements CategoriesRepositoryInterface {
+class EloquentWebshrinkerSimpleCategoriesRepository extends EloquentAbstractRepository implements CategoriesRepositoryInterface, WebshrinkerSimpleCategoriesRepositoryInterface {
 
     /**
      * Webshrinker simple categories Repository constructor.
@@ -14,5 +15,6 @@ class EloquentWebshrinkerSimpleCategoriesRepository extends EloquentAbstractRepo
     {
         $this->modelClass = WebshrinkerSimpleCategory::class;
     }
+    
 
 }

@@ -29,6 +29,12 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->app->singleton(
                 Interfaces\BookmarksRepositoryInterface::class, Repositories\EloquentBookmarksRepository::class
         );
+        $this->app->singleton(
+                Interfaces\WebshrinkerSimpleCategoriesRepositoryInterface::class, Repositories\EloquentWebshrinkerSimpleCategoriesRepository::class
+        );
+        $this->app->singleton(
+                Interfaces\WebshrinkerIabCategoriesRepositoryInterface::class, Repositories\EloquentWebshrinkerIabCategoriesRepository::class
+        );
     }
 
 }
