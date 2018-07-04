@@ -43,4 +43,24 @@ class Bookmark extends Model {
         'metatags' => 'array'
     ];
 
+    /**
+     * A bookmark has many WS simple categories.
+     *
+     * @return BelongsToMany
+     */
+    public function wsSimpleCategories()
+    {
+        return $this->belongsToMany('App\models\WebshrinkerSimpleCategory', 'bookmark_ws_s_category', 'bookmark_id', 'category_id')->withTimestamps();
+    }
+
+    /**
+     * A bookmark has many WS IAB categories.
+     *
+     * @return BelongsToMany
+     */
+    public function wsIabCategories()
+    {
+        return $this->belongsToMany('App\models\WebshrinkerIabCategory', 'bookmark_ws_i_category', 'bookmark_id', 'category_id')->withTimestamps();
+    }
+
 }

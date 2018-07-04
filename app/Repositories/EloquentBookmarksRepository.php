@@ -26,4 +26,58 @@ class EloquentBookmarksRepository extends EloquentAbstractRepository implements 
         return Bookmark::where('url', $url)->exists();
     }
 
+    /**
+     * Attach WS simple category to bookmark.
+     * 
+     * @param Integer $id
+     * @param Integer $categoryId
+     * @return Bookmark
+     */
+    public function attachWsSimpleCategory($id, $categoryId)
+    {
+        $bookmark = $this->getById($id);
+        $bookmark->wsSimpleCategories()->attach($categoryId);
+        return $bookmark;
+    }
+
+    /**
+     * Attach WS IAB category to bookmark.
+     * 
+     * @param Integer $id
+     * @param Integer $categoryId
+     * @return Bookmark
+     */
+    public function attachWsIabCategory($id, $categoryId)
+    {
+        $bookmark = $this->getById($id);
+        $bookmark->wsIabCategories()->attach($categoryId);
+        return $bookmark;
+    }
+
+    /**
+     * Checks whether a bookmark has a specific category.
+     * 
+     * @param Integer $id
+     * @param Integer $categoryId
+     * @return Boolean
+     */
+    public function hasWsSimpleCategory($id, $categoryId)
+    {
+        $bookmark = $this->getById($id);
+        return $bookmark->wsSimpleCategories()->where('webshrinker_simple_categories.id', $categoryId)->exists();
+    }
+
+    /**
+     * Checks whether a bookmark has a specific category.
+     * 
+     * @param Integer $id
+     * @param Integer $categoryId
+     * @return Boolean
+     */
+    public function hasWsIabCategory($id, $categoryId)
+    {
+        $bookmark = $this->getById($id);
+        return $bookmark->wsIabCategories()->where('webshrinker_iab_categories.id', $categoryId)->exists();
+    }
+
 }
