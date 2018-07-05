@@ -63,4 +63,14 @@ class Bookmark extends Model {
         return $this->belongsToMany('App\models\WebshrinkerIabCategory', 'bookmark_ws_i_category', 'bookmark_id', 'category_id')->withTimestamps();
     }
 
+    /**
+     * A bookmark belongs to many users.
+     *
+     * @return BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\User')->withPivot('is_private')->withTimestamps();
+    }
+
 }
