@@ -80,4 +80,18 @@ class EloquentBookmarksRepository extends EloquentAbstractRepository implements 
         return $bookmark->wsIabCategories()->where('webshrinker_iab_categories.id', $categoryId)->exists();
     }
 
+    /**
+     * attach a bookmark to a user.
+     * 
+     * @param integer $id
+     * @param integer $userId
+     * @return Bookmark
+     */
+    public function attachUser($id, $userId)
+    {
+        $bookmark = $this->getById($id);
+        $bookmark->users()->attach($userId);
+        return $bookmark;
+    }
+
 }

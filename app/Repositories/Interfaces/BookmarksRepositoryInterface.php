@@ -47,4 +47,13 @@ interface BookmarksRepositoryInterface {
      * @return Boolean
      */
     public function hasWsIabCategory($id, $categoryId);
+
+    /**
+     * attach a bookmark to a user.
+     * 
+     * @param integer $id
+     * @param integer $userId
+     * @return Bookmark
+     */
+    public function attachUser($id, $userId);
 }
