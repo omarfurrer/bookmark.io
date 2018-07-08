@@ -94,4 +94,21 @@ class EloquentBookmarksRepository extends EloquentAbstractRepository implements 
         return $bookmark;
     }
 
+    /**
+     * Update user's bookmark privacy.
+     * 
+     * @param integer $id
+     * @param integer $userId
+     * @param Boolean $isPrivate
+     * @return Bookmark
+     */
+    public function updateBookmarkPrivacy($id, $userId, $isPrivate = true)
+    {
+        $bookmark = $this->getById($id);
+        $pivot = $bookmark->users()->where('users.id', $userId)->first();
+        $pivot->pivot->is_private = $isPrivate;
+        $pivot->pivot->save();
+        return $bookmark;
+    }
+
 }

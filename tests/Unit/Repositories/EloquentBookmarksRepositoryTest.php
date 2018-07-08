@@ -74,4 +74,33 @@ class EloquentBookmarksRepositoryTest extends TestCase {
         $this->assertFalse($this->bookmarksRepository->hasWsIabCategory($bookmark->id, 2));
     }
 
+    /**
+     * Test bookmak user attachement functions. 
+     */
+    public function testBookmarkUserAttachement()
+    {
+        $bookmark = $this->bookmarksRepository->create([
+            'url' => 'https://www.youtube.com/watch?v=cIUoMsV80r8',
+            'domain' => 'youtube.com'
+        ]);
+
+        $user = factory(\App\User::class)->create();
+
+        $this->bookmarksRepository->attachUser($bookmark->id, $user->id);
+
+        $this->assertDatabaseHas("bookmark_user", [
+            "user_id" => $user->id,
+            "bookmark_id" => $bookmark->id,
+            "is_private" => false
+        ]);
+
+        $this->bookmarksRepository->updateBookmarkPrivacy($bookmark->id, $user->id);
+
+        $this->assertDatabaseHas("bookmark_user", [
+            "user_id" => $user->id,
+            "bookmark_id" => $bookmark->id,
+            "is_private" => true
+        ]);
+    }
+
 }

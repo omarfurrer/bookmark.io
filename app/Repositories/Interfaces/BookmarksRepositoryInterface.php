@@ -56,4 +56,14 @@ interface BookmarksRepositoryInterface {
      * @return Bookmark
      */
     public function attachUser($id, $userId);
+
+    /**
+     * Update user's bookmark privacy.
+     * 
+     * @param integer $id
+     * @param integer $userId
+     * @param Boolean $isPrivate
+     * @return Bookmark
+     */
+    public function updateBookmarkPrivacy($id, $userId, $isPrivate = true);
 }
