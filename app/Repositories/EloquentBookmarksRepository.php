@@ -111,4 +111,16 @@ class EloquentBookmarksRepository extends EloquentAbstractRepository implements 
         return $bookmark;
     }
 
+    /**
+     * Check if a bookmark is adult content.
+     * 
+     * @param integer $id
+     * @return boolean
+     */
+    public function isAdult($id)
+    {
+        $bookmark = $this->getById($id);
+        return $bookmark->is_adult;
+    }
+
 }

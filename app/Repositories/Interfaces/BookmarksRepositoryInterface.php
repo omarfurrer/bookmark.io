@@ -66,4 +66,12 @@ interface BookmarksRepositoryInterface {
      * @return Bookmark
      */
     public function updateBookmarkPrivacy($id, $userId, $isPrivate = true);
+
+    /**
+     * Check if a bookmark is adult content.
+     * 
+     * @param integer $id
+     * @return boolean
+     */
+    public function isAdult($id);
 }
